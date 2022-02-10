@@ -1,5 +1,6 @@
 package br.com.solinftec.treinamentospringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,13 @@ public class Equipamento {
 
     @Column(name = "ATIVO")
     private Boolean ativo;
+
+    @ManyToOne
+    @JoinColumn(name = "TIPO_EQUIPAMENTO")
+    @JsonManagedReference
+    private TipoEquipamento tipoEquipamento;
+
+    @OneToMany
+    @JoinColumn(name = "ID_EQUIPAMENTO")
+    private Monitoramento monitoramento;
 }

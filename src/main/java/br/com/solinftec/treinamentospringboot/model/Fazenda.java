@@ -1,6 +1,7 @@
 package br.com.solinftec.treinamentospringboot.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,9 +18,6 @@ public class Fazenda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ID_FAZENDEIRO")
-    private Long id_fazendeiro;
-
     @Column(name = "DESCRICAO")
     private String descricao;
 
@@ -31,4 +29,9 @@ public class Fazenda {
 
     @Column(name = "LONGITUDE")
     private Float longitude;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_FAZENDEIRO")
+    @JsonManagedReference
+    private Fazendeiro fazendeiro;
 }

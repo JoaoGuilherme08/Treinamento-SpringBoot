@@ -1,0 +1,28 @@
+package br.com.solinftec.treinamentospringboot.dto.monitoramento;
+
+import br.com.solinftec.treinamentospringboot.dto.equipamento.EquipamentoDto;
+import br.com.solinftec.treinamentospringboot.model.Monitoramento;
+import lombok.Data;
+import java.util.Date;
+
+@Data
+public class GetAllMonitoramentoDto {
+
+    private Long id;
+    private Long idEquipamento;
+    private Long idOrdemServico;
+    private Float latitude;
+    private Float longitude;
+    private Date dataHora;
+    private EquipamentoDto equipamentoDto;
+
+    public GetAllMonitoramentoDto(Monitoramento monitoramento) {
+        this.id = monitoramento.getId();
+        this.idEquipamento = monitoramento.getIdEquipamento();
+        this.idOrdemServico = monitoramento.getIdOrdemServico();
+        this.latitude = monitoramento.getLatitude();
+        this.longitude = monitoramento.getLongitude();
+        this.dataHora = monitoramento.getDataHora();
+        this.equipamentoDto = new EquipamentoDto(monitoramento.getEquipamento());
+    }
+}

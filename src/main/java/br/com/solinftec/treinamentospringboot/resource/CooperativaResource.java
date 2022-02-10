@@ -1,5 +1,6 @@
 package br.com.solinftec.treinamentospringboot.resource;
 
+import br.com.solinftec.treinamentospringboot.dto.cooperativa.CooperativaDto;
 import br.com.solinftec.treinamentospringboot.dto.cooperativa.GetAllCooperativaDto;
 import br.com.solinftec.treinamentospringboot.dto.cooperativa.SaveCooperativaDto;
 import br.com.solinftec.treinamentospringboot.model.Cooperativa;
@@ -8,9 +9,12 @@ import br.com.solinftec.treinamentospringboot.service.CooperativaService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,6 +35,26 @@ public class CooperativaResource {
         }
     }
 
+    @GetMapping("/{idCooperativa}")
+    public ResponseEntity<CooperativaDto> getCooperativa(@PathVariable("idCooperativa") Long idCooperativa) {
+        try {
+            return ResponseEntity.ok().body(service.getCooperativa(idCooperativa));
+        }  catch (Exception e) {
+            if(e.getMessage().equals("COOPERATIVA_NOT_FOUND"))
+                return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<CooperativaDto>> getPage(Pageable pageable, @RequestParam("search") String search) {
+        try {
+            return ResponseEntity.ok().body(service.getPage(pageable, search));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping("/fazendeiros/{idCooperativa}")
     public ResponseEntity<List<Fazendeiro>> getFazendeirosDaCooperativa(@PathVariable("idCooperativa") Long id) {
 
@@ -45,7 +69,7 @@ public class CooperativaResource {
     }
 
     @PostMapping("")
-    public ResponseEntity<SaveCooperativaDto> save(@RequestBody SaveCooperativaDto saveCooperativaDto) {
+    public ResponseEntity<SaveCooperativaDto> save(@RequestBody @Valid SaveCooperativaDto saveCooperativaDto) {
         try {
             return ResponseEntity.ok().body(service.save(saveCooperativaDto));
         } catch (Exception e) {
@@ -78,5 +102,6 @@ public class CooperativaResource {
             return ResponseEntity.badRequest().build();
         }
     }
+
 
 }

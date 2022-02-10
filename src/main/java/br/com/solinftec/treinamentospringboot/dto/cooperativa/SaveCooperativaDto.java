@@ -4,6 +4,8 @@ import br.com.solinftec.treinamentospringboot.model.Cooperativa;
 import br.com.solinftec.treinamentospringboot.model.Fazendeiro;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +13,10 @@ import java.util.stream.Collectors;
 public class SaveCooperativaDto {
 
     private Long id;
+    @NotNull(message = "NOME_COULD_NOT_BE_NULL")
     private String nome;
+    @NotNull(message = "EMAIL_COULD_NOT_BE_NULL")
+    @Email(message = "NOT_A_VALID_EMAIL:${validatedValue}")
     private String email;
     private List<Long> fazendeiros;
 
